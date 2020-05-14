@@ -5,10 +5,12 @@ import 'package:onlineshop/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 
 class ProductGrid extends StatelessWidget {
-  //Products products = new Products();
+  final bool isFavourite;
+  ProductGrid(this.isFavourite);
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context).items;//retrieve data as object from dummy database in a list
+    final products = isFavourite?Provider.of<Products>(context).favourites
+    :Provider.of<Products>(context).items;//retrieve data as object from dummy database in a list
     return GridView.builder(
       //itemCount: products.items.length,
       itemCount: products.length,
@@ -24,13 +26,6 @@ class ProductGrid extends StatelessWidget {
               child:ProductItem()
           );
         },
-        /*
-        child: ProductItem(
-           // title:products.items[index].title,
-            title:products[index].title,
-            //imgUrl:products.items[index].imageUrl),
-            imgUrl:products[index].imageUrl),
-      ),*/
       )
     );
   }

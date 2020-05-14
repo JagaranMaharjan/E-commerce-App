@@ -9,7 +9,7 @@ class ProductDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context).settings.arguments as String;// retrieve value of arguments as object i.e. String which was send by ProductItem widget
-    final _selectedProduct = Provider.of<Products>(context).findById(id);// retrieve value as object according to its id
+    final _selectedProduct = Provider.of<Products>(context, listen: false).findById(id);// retrieve value as object according to its id
     return Scaffold(
       appBar: AppBar(
         title: Text(_selectedProduct.title),
