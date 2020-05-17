@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:onlineshop/model/product.dart';
+import 'package:onlineshop/model/orders.dart';
+import 'package:onlineshop/screens/oder_screen.dart';
 import 'package:onlineshop/screens/product_detail.dart';
 import 'package:onlineshop/screens/product_overview_screen.dart';
+import 'package:onlineshop/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
 
 import 'model/cart_provider.dart';
 import 'model/products.dart';
 import 'screens/cart_screen.dart';
-import 'package:onlineshop/widgets/cart_item.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Orders(),
         )
       ],
       //here change notifier is used to have data of Products for other class/widget
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
             ProductDetail.routeName: (ctx) => ProductDetail(),
             CartScreen.routeName: (ctx) => CartScreen(),
             CartItems.routeName: (ctx) => CartItems(),
+            OrderScreen.routeName: (ctx) => OrderScreen(),
           }),
     );
   }

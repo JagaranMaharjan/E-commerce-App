@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/model/cart_provider.dart';
+import 'package:onlineshop/model/orders.dart';
 import 'package:onlineshop/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _cart = Provider.of<Cart>(context);
+    final _order = Provider.of<Orders>(context, listen: false);
     /*return Scaffold(
       appBar: AppBar(
         title: Text("Your Cart"),
@@ -75,7 +77,13 @@ class CartScreen extends StatelessWidget {
                           fontSize: 18,
                           color: Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_cart.items.isNotEmpty || _cart.totalAmount != 0) {
+                        _order.addOrder(
+                            _cart.items.values.toList(), _cart.totalAmount);
+                        _cart.clearCart();
+                      }
+                    },
                   ),
                 ],
               ),
@@ -91,7 +99,8 @@ class CartScreen extends StatelessWidget {
                 id: _cart.items.values.toList()[index].id,
                 title: _cart.items.values.toList()[index].title,
                 price: _cart.items.values.toList()[index].price,
-                productId: _cart.items.keys.toList()[index],
+                productId: _cart.items.keys.toList()[index], //yo kna
+                // gareyko----------
                 quantity: _cart.items.values.toList()[index].quantity,
               ),
             ),

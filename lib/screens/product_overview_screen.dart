@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/model/cart_provider.dart';
 import 'package:onlineshop/screens/cart_screen.dart';
+import 'package:onlineshop/widgets/app_drawer.dart';
 import 'package:onlineshop/widgets/badgeDart.dart';
 import 'package:onlineshop/widgets/product_grid.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   Widget build(BuildContext context) {
     //final cart = Provider.of<Cart>(context);
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: Text("Online Shop"),
         actions: <Widget>[
@@ -48,10 +50,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           Consumer<Cart>(
             //consumer always listen to notifier
             builder: (_, cart, child) {
-              return Badge(
-                value: cart.itemCount.toString(),
-                child: child,
-              );
+              return cart.itemCount == 0
+                  ? child
+                  : Badge(
+                      value: cart.itemCount.toString(),
+                      child: child,
+                    );
             },
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
