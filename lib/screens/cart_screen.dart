@@ -78,9 +78,11 @@ class CartScreen extends StatelessWidget {
                           color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
+                      Scaffold.of(context).removeCurrentSnackBar();
                       if (_cart.items.isNotEmpty || _cart.totalAmount != 0) {
                         _order.addOrder(
                             _cart.items.values.toList(), _cart.totalAmount);
+
                         _cart.clearCart();
                       }
                     },

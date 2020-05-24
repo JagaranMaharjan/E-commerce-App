@@ -61,6 +61,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.pushNamed(context, CartScreen.routeName);
+                //Scaffold.of(context).removeCurrentSnackBar();
               },
             ),
           ),

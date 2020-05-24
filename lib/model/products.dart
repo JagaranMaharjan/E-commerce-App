@@ -10,7 +10,7 @@ class Products with ChangeNotifier {
       desc: "Best Watch",
       isFavourite: false,
       imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/81ZKNYBwYlL._AC_SY445_.jpg",
+          "https://images-na.ssl-images-amazon.com/images/I/81ZKNYBwYlL._AC_SY445_.jpg",
     ),
     Product(
       id: "second",
@@ -19,7 +19,7 @@ class Products with ChangeNotifier {
       desc: "Best TV",
       isFavourite: false,
       imageUrl:
-      "https://www.thepasal.com/images/2017/tv/skyworth/e200a/skyworth-43-smart-tv.jpg",
+          "https://www.thepasal.com/images/2017/tv/skyworth/e200a/skyworth-43-smart-tv.jpg",
     ),
     Product(
       id: "third",
@@ -28,7 +28,7 @@ class Products with ChangeNotifier {
       desc: "Best Mobile",
       isFavourite: false,
       imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/61-BmjNwoTL._SX522_.jpg",
+          "https://images-na.ssl-images-amazon.com/images/I/61-BmjNwoTL._SX522_.jpg",
     ),
     Product(
       id: "forth",
@@ -37,7 +37,7 @@ class Products with ChangeNotifier {
       desc: "Best Watch",
       isFavourite: false,
       imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/81ZKNYBwYlL._AC_SY445_.jpg",
+          "https://images-na.ssl-images-amazon.com/images/I/81ZKNYBwYlL._AC_SY445_.jpg",
     ),
   ];
 
@@ -50,9 +50,37 @@ class Products with ChangeNotifier {
   }
 
   //show only favourite items
-  List<Product> get favourites{
+  List<Product> get favourites {
     return _items.where((productItem) {
       return productItem.isFavourite;
     }).toList();
-}
+  }
+
+//this functions add new products
+  void addNewProduct(Product product) {
+    final newProduct = Product(
+      id: DateTime.now().toString(),
+      title: product.title,
+      price: product.price,
+      desc: product.desc,
+      imageUrl: product.imageUrl,
+    );
+    _items.add(newProduct);
+    notifyListeners();
+  }
+
+  //this function update the product details
+  void updateProduct(String id, Product upProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = upProduct;
+      notifyListeners();
+    }
+  }
+
+  //    this function delete the current product
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 }
