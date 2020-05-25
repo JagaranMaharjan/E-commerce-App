@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:onlineshop/model/product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
-    Product(
+    /*Product(
       id: "first",
       title: "Watch",
       price: 5000.0,
@@ -38,7 +41,7 @@ class Products with ChangeNotifier {
       isFavourite: false,
       imageUrl:
           "https://images-na.ssl-images-amazon.com/images/I/81ZKNYBwYlL._AC_SY445_.jpg",
-    ),
+    ),   */
   ];
 
   List<Product> get items {
@@ -57,16 +60,63 @@ class Products with ChangeNotifier {
   }
 
 //this functions add new products
-  void addNewProduct(Product product) {
-    final newProduct = Product(
-      id: DateTime.now().toString(),
-      title: product.title,
-      price: product.price,
-      desc: product.desc,
-      imageUrl: product.imageUrl,
-    );
-    _items.add(newProduct);
-    notifyListeners();
+  Future<void> addNewProduct(Product product) async {
+    const url = "https://onlineshop-abf48.firebaseio.com/products.json";
+    /*const test = "http://ip.jsontest.com/";
+    http.get(test).then((response) {
+      print(response.statusCode);
+      //print(response.body);
+    });
+    //if status code is 200 then we are ready to add new product  */
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'title': product.title,
+            'price': product.price,
+            'desc': product.desc,
+            'imageUrl': product.imageUrl,
+            'isFavourite': product.isFavourite,
+          }));
+
+      print(json.decode(response.body)['name']);
+      final newProduct = Product(
+        id: json.decode(response.body)['name'],
+        title: product.title,
+        price: product.price,
+        desc: product.desc,
+        imageUrl: product.imageUrl,
+      );
+      _items.add(newProduct);
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw (error);
+    }
+  }
+
+  //fetch product from database
+  Future<void> fetchAndSetProducts() async {
+    const url = "https://onlineshop-abf48.firebaseio.com/products.json";
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Product> loadedProduct = [];
+      extractedData.forEach((prodId, prodValue) {
+        loadedProduct.add(Product(
+          id: prodId,
+          title: prodValue['title'],
+          price: double.parse(prodValue['price'].toString()),
+          imageUrl: prodValue['imageUrl'],
+          desc: prodValue['desc'],
+          isFavourite: prodValue['isFavourite'],
+        ));
+        _items = loadedProduct;
+        notifyListeners();
+      });
+    } catch (error) {
+      print(error);
+      throw (error);
+    }
   }
 
   //this function update the product details
