@@ -62,39 +62,57 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct.id, _editedProduct);
+      } catch (error) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Error Occured"),
+            content: Text("Something had occured ! Product couldnot be added"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
             .addNewProduct(_editedProduct);
       } catch (error) {
         await showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: Text("Error Occured"),
-                  content: Text("Something has occured ! Product could not be "
-                      "added !"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Ok"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        setState(() {
-                          _isLoading = false;
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ));
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.pop(context);
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Error Occured"),
+            content: Text("Something has occured ! Product could not be "
+                "added !"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pop(context);
   }
 
   //instead dof model router----
