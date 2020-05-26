@@ -48,7 +48,7 @@ class Cart with ChangeNotifier {
         ),
       );
     }
-    print("i m here");
+    //print("i m here");
     print(_items);
     notifyListeners();
   }
