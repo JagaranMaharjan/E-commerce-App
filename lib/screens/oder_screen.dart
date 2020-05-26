@@ -26,6 +26,7 @@ class OrderScreen extends StatelessWidget {
                 child: Text("Error Occurred! Something went wrong. Try Again!"),
               );
             } else {
+              print("i have gone through here");
               return Consumer<Orders>(
                   builder: (ctx, orderData, child) => ListView.builder(
                         itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
