@@ -57,7 +57,6 @@ class Orders with ChangeNotifier {
     }
   }
 
-  /*
   //fetching orders data from the firebase
   Future<void> fetchAndSetOrders() async {
     const url = "https://onlineshop-abf48.firebaseio.com/orders.json";
@@ -68,29 +67,32 @@ class Orders with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
-      print("i am from here-----------");
-      print(extractedData.toString());
-      print("-----------------------");
+      print(
+        extractedData.toString(),
+      );
       extractedData.forEach(
         (orderId, orderData) {
-          print("this is my order id");
-          print(orderId);
-          print("------------");
           _loadedOrders.add(
             OrderItem(
               id: orderId,
-              amount: double.parse(orderData['amount'].toString()),
+              amount: double.parse(
+                orderData['amount'].toString(),
+              ),
               products: (orderData['products'] as List<dynamic>)
                   .map(
                     (item) => CartItem(
                       id: item['id'],
-                      price: double.parse(item['price'].toString()),
+                      price: double.parse(
+                        item['price'].toString(),
+                      ),
                       quantity: item['quantity'],
                       title: item['title'],
                     ),
                   )
                   .toList(),
-              dateTime: DateTime.parse(orderData['dataTime']),
+              dateTime: DateTime.parse(
+                orderData['dateTime'],
+              ),
             ),
           );
         },
@@ -98,14 +100,12 @@ class Orders with ChangeNotifier {
       //print(id);
       _orders = _loadedOrders;
       notifyListeners();
-      print(_orders);
     } catch (error) {
-      print("fetching error ----------");
       print(error);
       throw error;
     }
   }
-  */
+  /*
   // fetching order from the firebase
   Future<void> fetchAndSetOrders() async {
     const url = "https://onlineshop-abf48.firebaseio.com/orders.json";
@@ -116,25 +116,40 @@ class Orders with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
-      print(extractedData.toString());
-      extractedData.forEach((orderId, orderData) {
-        _loadedOrders.add(OrderItem(
-            id: orderId,
-            amount: double.parse(orderData['amount'].toString()),
-            products: (orderData['products'] as List<dynamic>)
-                .map((item) => CartItem(
+      print(
+        extractedData.toString(),
+      );
+      extractedData.forEach(
+        (orderId, orderData) {
+          _loadedOrders.add(
+            OrderItem(
+              id: orderId,
+              amount: double.parse(
+                orderData['amount'].toString(),
+              ),
+              products: (orderData['products'] as List<dynamic>)
+                  .map(
+                    (item) => CartItem(
                       id: item['id'],
-                      price: double.parse(item['price'].toString()),
+                      price: double.parse(
+                        item['price'].toString(),
+                      ),
                       quantity: item['quantity'],
                       title: item['title'],
-                    ))
-                .toList(),
-            dateTime: DateTime.parse(orderData['dateTime'])));
-      });
+                    ),
+                  )
+                  .toList(),
+              dateTime: DateTime.parse(
+                orderData['dateTime'],
+              ),
+            ),
+          );
+        },
+      );
       _orders = _loadedOrders;
       notifyListeners();
     } catch (error) {
       throw (error);
     }
-  }
+  }     */
 }
