@@ -9,6 +9,28 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
+  //to check whether user had login or not
+  //if it returns null value then users need to sign in otherwise not
+  bool get isAuth {
+    return _token != null; //it means user had login
+  }
+
+  //to return token value first of it will check the user login expiry time,
+  // if user login expiry time is not ended with current time then it will
+  // return token value otherwise it will return null
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
+
+  String get userId {
+    return _userId;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     final url = "https://identitytoolkit.googleapis"
@@ -34,6 +56,16 @@ class Auth with ChangeNotifier {
           responseData['error']['message'],
         );
       }
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseData['expiresIn'],
+          ),
+        ),
+      );
+      notifyListeners();
     } catch (error) {
       print(error);
       throw error;
