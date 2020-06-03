@@ -81,6 +81,7 @@ class Products with ChangeNotifier {
             'price': product.price,
             'desc': product.desc,
             'imageUrl': product.imageUrl,
+            'creatorId': _userId,
             //'isFavourite': product.isFavourite,
           }));
 
@@ -101,9 +102,12 @@ class Products with ChangeNotifier {
   }
 
   //fetch product from database
-  Future<void> fetchAndSetProducts() async {
-    final url = "https://onlineshop-abf48.firebaseio.com/products"
-        ".json?auth=$_authToken";
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$_userId"' : "";
+
+    final url =
+        "https://onlineshop-abf48.firebaseio.com/products.json?auth=$_authToken&$filterString";
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

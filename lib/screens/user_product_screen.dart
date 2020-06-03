@@ -10,12 +10,13 @@ class UserProductScreen extends StatelessWidget {
   static const String routeName = "/userProductScreen";
 
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    await Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final _productData = Provider.of<Products>(context);
+    //final _productData = Provider.of<Products>(context);
     // print(_productData.items[0].id);
     return Scaffold(
       appBar: AppBar(
@@ -30,17 +31,30 @@ class UserProductScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshProducts(context),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(8.0),
-          itemCount: _productData.items.length,
-          itemBuilder: (context, index) => UserProductItem(
-            title: _productData.items[index].title,
-            imgUrl: _productData.items[index].imageUrl,
-            id: _productData.items[index].id,
-          ),
-        ),
+      body: FutureBuilder(
+        future: _refreshProducts(context),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () => _refreshProducts(context),
+                  child: Consumer<Products>(
+                    builder: (ctx, products, _) {
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: products.items.length,
+                        itemBuilder: (context, index) => UserProductItem(
+                          title: products.items[index].title,
+                          imgUrl: products.items[index].imageUrl,
+                          id: products.items[index].id,
+                        ),
+                      );
+                    },
+                  ),
+                );
+        },
       ),
     );
   }

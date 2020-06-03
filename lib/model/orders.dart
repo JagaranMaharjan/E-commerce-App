@@ -16,18 +16,19 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   final String _authToken;
+  final String _userId;
 
   List<OrderItem> _orders = [];
 
-  Orders(this._authToken, this._orders);
+  Orders(this._authToken, this._orders, this._userId);
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   //add items for cart
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    final url = "https://onlineshop-abf48.firebaseio.com/orders"
-        ".json?auth=$_authToken";
+    final url =
+        "https://onlineshop-abf48.firebaseio.com/orders/$_userId.json?auth=$_authToken";
     try {
       final response = await http.post(
         url,
@@ -63,7 +64,7 @@ class Orders with ChangeNotifier {
 
   //fetching orders data from the firebase
   Future<void> fetchAndSetOrders() async {
-    final url = "https://onlineshop-abf48.firebaseio.com/orders"
+    final url = "https://onlineshop-abf48.firebaseio.com/orders/$_userId"
         ".json?auth=$_authToken";
     try {
       final response = await http.get(url);
@@ -103,7 +104,8 @@ class Orders with ChangeNotifier {
         },
       );
       //print(id);
-      _orders = _loadedOrders;
+      _orders = _loadedOrders.reversed.toList(); //recent added product will be
+      // added at the top of the list
       notifyListeners();
     } catch (error) {
       print(error);
