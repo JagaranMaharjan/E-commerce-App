@@ -68,15 +68,17 @@ class MyApp extends StatelessWidget {
                 ? ProductOverviewScreen()
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
-                    builder: (ctx, authResult) =>
-                        authResult.connectionState == ConnectionState.waiting
-                            ? SplashScreen()
-                            : AuthScreen(),
-                  ),
-            // initialRoute: "/",
+                    builder: (context, authResult) {
+                      print("connection state");
+                      print(authResult.connectionState);
+                      print(ConnectionState.waiting);
+
+                      return authResult.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen();
+                    }),
             routes: {
-              // "/": (ctx) => ProductOverviewScreen(),
-              //"/": (ctx) => AuthScreen(),
               ProductDetail.routeName: (ctx) => ProductDetail(),
               CartScreen.routeName: (ctx) => CartScreen(),
               CartItems.routeName: (ctx) => CartItems(),
@@ -85,6 +87,7 @@ class MyApp extends StatelessWidget {
               EditProductScreen.routeName: (ctx) => EditProductScreen(),
               // AuthScreen.routeName: (ctx) => AuthScreen(),
             },
+            //onUnknownRoute: AuthScreen,
           );
         },
       ),

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final acontext = Scaffold.of(context);
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -50,7 +51,12 @@ class AppDrawer extends StatelessWidget {
             title: Text('Logout'),
             onTap: () async {
               Navigator.of(context).pop();
+              //Navigator.of(context).dispose();
               Navigator.of(context).pushReplacementNamed("/");
+              //Navigator.of(context).pushReplacementNamed("/");
+              // Navigator.of(context).pop();
+              //Navigator.pop(context);
+
               await Provider.of<Auth>(context, listen: false).logout();
             },
           ),

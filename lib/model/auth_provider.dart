@@ -95,10 +95,6 @@ class Auth with ChangeNotifier {
   //to logout the session of current users which clears login expiry date, token
   // and users id
   Future<void> logout() async {
-    //print("my details before logout :");
-    //print(_token);
-    //print(_expiryDate);
-    //print(_userId);
     _token = null;
     _expiryDate = null;
     _userId = null;
@@ -106,14 +102,11 @@ class Auth with ChangeNotifier {
       _authTimer.cancel();
       _authTimer = null;
     }
-    notifyListeners();
+
     //clear login data   #use of share preference
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    //print("my details after logout :");
-    //print(_token);
-    //print(_expiryDate);
-    //print(_userId);
+    notifyListeners();
   }
 
   //auto logout
