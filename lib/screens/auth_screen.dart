@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:onlineshop/exceptions/http_exception.dart';
 import 'package:onlineshop/model/auth_provider.dart';
+import 'package:onlineshop/screens/product_overview_screen.dart';
 import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
@@ -176,6 +177,8 @@ class _AuthCardState extends State<AuthCard>
           _authData['password'],
         );
       }
+      Navigator.of(context)
+          .pushReplacementNamed(ProductOverviewScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = "Authentication Failed";
       if (error.toString().contains("EMAIL_EXITS")) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshop/helper/customRoute.dart';
 import 'package:onlineshop/model/auth_provider.dart';
+import 'package:onlineshop/screens/auth_screen.dart';
 import 'package:onlineshop/screens/oder_screen.dart';
 import 'package:onlineshop/screens/user_product_screen.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,10 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.payment),
             title: Text('Orders'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, OrderScreen.routeName);
+              //Navigator.pushReplacementNamed(context, OrderScreen.routeName);
+              Navigator.of(context).pushReplacement(
+                CustomRoute(builder: (context) => OrderScreen()),
+              );
             },
           ),
           Divider(),
@@ -39,9 +44,12 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.edit),
             title: Text('Manage Products'),
             onTap: () {
-              Navigator.pushReplacementNamed(
+              /* Navigator.pushReplacementNamed(
                 context,
                 UserProductScreen.routeName,
+              ); */
+              Navigator.of(context).pushReplacement(
+                CustomRoute(builder: (context) => UserProductScreen()),
               );
             },
           ),
@@ -52,12 +60,13 @@ class AppDrawer extends StatelessWidget {
             onTap: () async {
               Navigator.of(context).pop();
               //Navigator.of(context).dispose();
-              Navigator.of(context).pushReplacementNamed("/");
+
               //Navigator.of(context).pushReplacementNamed("/");
               // Navigator.of(context).pop();
               //Navigator.pop(context);
 
               await Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
             },
           ),
           Divider(),

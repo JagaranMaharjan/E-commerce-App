@@ -27,6 +27,7 @@ dependencies:
   intl: ^0.16.1
   http: ^0.12.1
   shared_preferences: ^0.5.7+3
+  flare_splash_screen: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -45,8 +46,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/splash.flr
+    - assets/images/jagaran.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
