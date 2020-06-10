@@ -49,10 +49,6 @@ class Auth with ChangeNotifier {
           },
         ),
       );
-      /* print(
-        json.decode(response.body),
-      );   */
-      //to check error
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw HttpException(
@@ -68,6 +64,13 @@ class Auth with ChangeNotifier {
           ),
         ),
       );
+      String userType;
+      if (urlSegment == "signUp") {
+        userType = await addUsersToDatabase(_token, userId, email);
+      } else {
+        userType = await getUsers(_token, userId);
+      }
+
       _autoLogout();
       notifyListeners();
       //use of share preference
@@ -76,6 +79,8 @@ class Auth with ChangeNotifier {
         'token': _token,
         'userId': _userId,
         'expiryDate': _expiryDate.toIso8601String(),
+        'email': email,
+        'userType': userType,
       });
       prefs.setString("userData", userData);
     } catch (error) {
@@ -139,5 +144,44 @@ class Auth with ChangeNotifier {
     notifyListeners();
     _autoLogout();
     return true;
+  }
+
+  //add user to database
+  Future<String> addUsersToDatabase(
+      String authToken, String userId, String email) async {
+    final url =
+        "https://onlineshop-abf48.firebaseio.com/users/$userId.json?auth=$authToken";
+    try {
+      final response = await http.put(
+        url,
+        body: json.encode(
+          {
+            'userId': userId,
+            'email': email,
+            'userType': "client",
+          },
+        ),
+      );
+      print(json.decode(response.body));
+      return "client";
+      //notifyListeners();
+    } catch (error) {
+      print(error);
+      throw (error);
+    }
+  }
+
+  Future<String> getUsers(String authToken, String userId) async {
+    final url =
+        "https://onlineshop-abf48.firebaseio.com/users/$userId.json?auth=$authToken";
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+      print(extractedData.toString());
+      return extractedData["userType"];
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:onlineshop/model/products.dart';
 import 'package:onlineshop/screens/cart_screen.dart';
 import 'package:onlineshop/widgets/app_drawer.dart';
 import 'package:onlineshop/widgets/badgeDart.dart';
+import 'package:onlineshop/widgets/customSearchDelegate.dart';
 import 'package:onlineshop/widgets/product_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -93,6 +94,13 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               child: CircularProgressIndicator(),
             )
           : ProductGrid(_showFavorites),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showSearch(context: context, delegate: CustomSearchDelegate());
+        },
+        elevation: 2,
+        child: Icon(Icons.search),
+      ),
     );
   }
 }

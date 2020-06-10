@@ -10,40 +10,6 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _cart = Provider.of<Cart>(context);
-
-    /*return Scaffold(
-      appBar: AppBar(
-        title: Text("Your Cart"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Card(
-            margin: EdgeInsets.all(10),
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Total",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) => CartItems(),
-            ),
-          ),
-        ],
-      ),
-    );*/
     return Scaffold(
       appBar: AppBar(
         title: Text("Your Cart"),
@@ -69,23 +35,6 @@ class CartScreen extends StatelessWidget {
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  /*FlatButton(
-                    child: Text(
-                      "ORDER NOW",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    onPressed: () async {
-                      // Scaffold.of(context).removeCurrentSnackBar();
-                      if (_cart.items.isNotEmpty || _cart.totalAmount != 0) {
-                        await _order.addOrder(
-                            _cart.items.values.toList(), _cart.totalAmount);
-                        _cart.clearCart();
-                      }
-                    },
-                  ),*/
                   OrderButton(
                     cart: _cart,
                   ),

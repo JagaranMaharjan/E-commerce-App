@@ -15,11 +15,6 @@ class CartItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
-    print(id);
-    print(productId);
-    print(price);
-    print(quantity);
-    print(title);
     return Dismissible(
       key: ValueKey(DateTime.now()),
       direction: DismissDirection.endToStart,

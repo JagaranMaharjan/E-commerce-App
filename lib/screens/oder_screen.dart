@@ -36,32 +36,6 @@ class OrderScreen extends StatelessWidget {
           }
         },
       ),
-      /*FutureBuilder(
-        future: Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
-        builder: (ctx, dataSnapshot) {
-          if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (dataSnapshot.error != null) {
-              return Center(
-                child: Text("Error Occured ! Something went "
-                    "wrong. Try Again !"),
-              );
-            } else {
-              return Consumer<Orders>(
-                builder: (ctx, orderData, child) => ListView.builder(
-                  itemBuilder: (ctx, index) => OrderItems(
-                    orderData.orders[index],
-                  ),
-                  itemCount: orderData.orders.length,
-                ),
-              );
-            }
-          }
-        },
-      ),*/
     );
   }
 }
